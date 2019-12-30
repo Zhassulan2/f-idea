@@ -1,6 +1,34 @@
 <template>
   <div id="app">
+    <div id="navbar" class="navbar navbar-light bg-light">
+      <div class="navbar-brand">
+        <a class="border" href="./index.html">{{indexBtnText}}</a>
+        <a class="border" href="./instruction.html">{{instructionBtnText}}</a>
+      </div>
+      <div id="navbar_left_btns" class="form-inline">
+        <a href="./forgotpassword.html">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="">{{registrationBtnText}}</button>
+        </a>
+      </div>
+    </div>
+
+
     <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <div class="fadeIn first">
+          <img src="./assets/fortebank-logo.png" id="icon" alt="User Icon"/>
+        </div>
+        <form>
+          <input type="text" id="login" class="fadeIn second" name="login"
+                 v-bind:placeholder="[[placeholderLogin]]">
+          <input type="text" id="password" class="fadeIn third" name="password"
+                 v-bind:placeholder="[[placeholderPassword]]">
+          <input type="submit" class="fadeIn fourth" v-bind:value="[[loginBtnText]]">
+        </form>
+        <div id="formFooter">
+          <a class="underlineHover" href="./forgotpassword.html">{{forgotPasswordBtnText}}?</a>
+        </div>
+      </div>
     </div>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
