@@ -1,42 +1,6 @@
 <template>
   <div id="app">
     <div class="wrapper fadeInDown">
-      <div id="headerContent">
-        <div id="navbar" class="navbar navbar-light bg-light">
-          <div class="navbar-brand">
-            <a href="./index.html">{{indexBtnText}}</a>
-            <a href="./instruction.html">{{instructionBtnText}}</a>
-          </div>
-          <div class="form-inline">
-            <a href="./forgotpassword.html">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="">{{registrationBtnText}}</button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div >
-        <div >
-
-        </div>
-
-      </div>
-      <div id="formContent">
-
-        <div class="fadeIn first">
-          <img src="./assets/fortebank-logo.png" id="iconLogin" alt="User Icon" />
-        </div>
-
-        <form>
-          <input type="text" id="login" class="fadeIn first" name="login" :placeholder="[[placeholderLogin]]" >
-          <input type="text" id="password" class="fadeIn first" name="password" :placeholder="[[placeholderPassword]]" >
-          <input type="submit" class="fadeIn first" :value="[[loginBtnText]]">
-        </form>
-
-        <div id="formFooter">
-          <a class="underlineHover" href="#">{{forgotPasswordBtnText}}</a>
-        </div>
-
-      </div>
     </div>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
