@@ -1,24 +1,28 @@
 <template>
   <div id="app">
     <div class="wrapper fadeInDown">
-      <div id="formContent">
-        <!-- Tabs Titles -->
-
-        <!-- Icon -->
+      <div id="headerContent">
         <div class="fadeIn first">
-          <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+          <img src="./assets/fortebank-logo.png" class="iconHeader" alt="User Icon" />
+          <input type="submit" class="fadeIn fourth" :value="[[loginBtnText]]">
+          <input type="submit" class="fadeIn fourth" :value="[[loginBtnText]]">
         </div>
 
-        <!-- Login Form -->
+      </div>
+      <div id="formContent">
+
+        <div class="fadeIn first">
+          <img src="./assets/fortebank-logo.png" id="iconLogin" alt="User Icon" />
+        </div>
+
         <form>
-          <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-          <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-          <input type="submit" class="fadeIn fourth" value="Log In">
+          <input type="text" id="login" class="fadeIn second" name="login" :placeholder="[[login]]" >
+          <input type="text" id="password" class="fadeIn third" name="password" :placeholder="[[passwd]]" >
+          <input type="submit" class="fadeIn fourth" :value="[[loginBtnText]]">
         </form>
 
-        <!-- Remind Passowrd -->
         <div id="formFooter">
-          <a class="underlineHover" href="#">Forgot Password?</a>
+          <a class="underlineHover" href="#">{{forgotBtnText}}</a>
         </div>
 
       </div>
@@ -34,6 +38,14 @@ export default {
   name: 'app',
   components: {
     HelloWorld
+  },
+  data (){
+    return {
+      login: "Логин",
+      passwd: "Пароль",
+      loginBtnText:"Авторизоваться",
+      forgotBtnText:"Забыли пароль"
+    }
   }
 }
 </script>
@@ -67,21 +79,19 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
+  /*
   min-height: 100%;
   padding: 20px;
+  */
 }
 
 #formContent {
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;
-  padding: 30px;
-  width: 90%;
   max-width: 450px;
   position: relative;
-  padding: 0px;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   text-align: center;
@@ -280,8 +290,12 @@ input[type=text]:placeholder {
   outline: none;
 }
 
-#icon {
-  width:60%;
+#iconLogin {
+  width:40%;
+}
+
+#iconHeader {
+  width:50%;
 }
 
 </style>
