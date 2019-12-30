@@ -2,10 +2,21 @@
   <div id="app">
     <div class="wrapper fadeInDown">
       <div id="headerContent">
-        <div class="fadeIn first">
-          <img src="./assets/fortebank-logo.png" class="iconHeader" alt="User Icon" />
-          <input type="submit" class="fadeIn fourth" :value="[[loginBtnText]]">
-          <input type="submit" class="fadeIn fourth" :value="[[loginBtnText]]">
+        <div id="navbar" class="navbar navbar-light bg-light">
+          <div class="navbar-brand">
+            <a href="./index.html">{{indexBtnText}}</a>
+            <a href="./instruction.html">{{instructionBtnText}}</a>
+          </div>
+          <div class="form-inline">
+            <a href="./forgotpassword.html">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="">{{registrationBtnText}}</button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div >
+        <div >
+
         </div>
 
       </div>
@@ -16,13 +27,13 @@
         </div>
 
         <form>
-          <input type="text" id="login" class="fadeIn second" name="login" :placeholder="[[login]]" >
-          <input type="text" id="password" class="fadeIn third" name="password" :placeholder="[[passwd]]" >
-          <input type="submit" class="fadeIn fourth" :value="[[loginBtnText]]">
+          <input type="text" id="login" class="fadeIn first" name="login" :placeholder="[[placeholderLogin]]" >
+          <input type="text" id="password" class="fadeIn first" name="password" :placeholder="[[placeholderPassword]]" >
+          <input type="submit" class="fadeIn first" :value="[[loginBtnText]]">
         </form>
 
         <div id="formFooter">
-          <a class="underlineHover" href="#">{{forgotBtnText}}</a>
+          <a class="underlineHover" href="#">{{forgotPasswordBtnText}}</a>
         </div>
 
       </div>
@@ -41,16 +52,20 @@ export default {
   },
   data (){
     return {
-      login: "Логин",
-      passwd: "Пароль",
-      loginBtnText:"Авторизоваться",
-      forgotBtnText:"Забыли пароль"
+      registrationBtnText: 'Регистрация',
+      loginBtnText: 'Авторизация',
+      indexBtnText: 'ForteIdea',
+      instructionBtnText: 'Инструкция',
+      forgotPasswordBtnText: 'Забыли Пароль',
+      placeholderLogin: 'Логин',
+      placeholderPassword: 'Пароль'
     }
   }
 }
 </script>
 
 <style>
+
 #app {
   font-family: "Poppins", sans-serif;
   height: 100vh;
@@ -58,22 +73,17 @@ export default {
 
 #app a {
   color: #92badd;
-  display:inline-block;
   text-decoration: none;
   font-weight: 400;
 }
 
-#app h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  display:inline-block;
-  margin: 40px 8px 10px 8px;
-  color: #cccccc;
+#iconLogin {
+  width:200px;
 }
 
-/* STRUCTURE */
+#navbar{
+  width: 100%;
+}
 
 .wrapper {
   display: flex;
@@ -106,24 +116,11 @@ export default {
   border-radius: 0 0 10px 10px;
 }
 
-#app h2.inactive {
-  color: #cccccc;
-}
-
-#app h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
-}
-
-
-
-/* FORM TYPOGRAPHY*/
-
 input[type=button], input[type=submit], input[type=reset]  {
   background-color: #56baed;
   border: none;
   color: white;
-  padding: 15px 80px;
+  padding: 15px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -157,7 +154,7 @@ input[type=text] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
-  padding: 15px 32px;
+  padding: 15px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -245,24 +242,6 @@ input[type=text]:placeholder {
   animation-delay: 0.4s;
 }
 
-.fadeIn.second {
-  -webkit-animation-delay: 0.6s;
-  -moz-animation-delay: 0.6s;
-  animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
 /* Simple CSS3 Fade-in Animation */
 .underlineHover:after {
   display: block;
@@ -283,19 +262,8 @@ input[type=text]:placeholder {
   width: 100%;
 }
 
-
-/* OTHERS */
-
 *:focus {
   outline: none;
-}
-
-#iconLogin {
-  width:40%;
-}
-
-#iconHeader {
-  width:50%;
 }
 
 </style>
