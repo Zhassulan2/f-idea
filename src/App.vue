@@ -1,57 +1,35 @@
 <template>
   <div id="app">
-    <div id="navbar" class="navbar navbar-light bg-light">
-      <div class="navbar-brand">
-        <a class="border" href="./index.html">{{indexBtnText}}</a>
-        <a class="border" href="./instruction.html">{{instructionBtnText}}</a>
-      </div>
-      <div id="navbar_left_btns" class="form-inline">
-        <a href="./forgotpassword.html">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="">{{registrationBtnText}}</button>
-        </a>
-      </div>
-    </div>
-
-
-    <div class="wrapper fadeInDown">
-      <div id="formContent">
-        <div class="fadeIn first">
-          <img src="./assets/fortebank-logo.png" id="icon" alt="User Icon"/>
-        </div>
-        <form>
-          <input type="text" id="login" class="fadeIn second" name="login"
-                 v-bind:placeholder="[[placeholderLogin]]">
-          <input type="text" id="password" class="fadeIn third" name="password"
-                 v-bind:placeholder="[[placeholderPassword]]">
-          <input type="submit" class="fadeIn fourth" v-bind:value="[[loginBtnText]]">
-        </form>
-        <div id="formFooter">
-          <a class="underlineHover" href="./forgotpassword.html">{{forgotPasswordBtnText}}?</a>
-        </div>
-      </div>
-    </div>
+    <Authorize></Authorize>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import Authorize from "@/components/Authorize";
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    Authorize
   },
   data (){
     return {
-      registrationBtnText: 'Регистрация',
-      loginBtnText: 'Авторизация',
-      indexBtnText: 'ForteIdea',
-      instructionBtnText: 'Инструкция',
-      forgotPasswordBtnText: 'Забыли Пароль',
-      placeholderLogin: 'Логин',
-      placeholderPassword: 'Пароль'
+      page:{
+        name:"login"
+      }
     }
+  },
+  mounted: function(){
+
+    // eslint-disable-next-line no-console
+    if (localStorage.getItem("username") == null) {
+      localStorage.setItem("page","login")
+    }
+
   }
 }
 </script>
@@ -69,23 +47,11 @@ export default {
   font-weight: 400;
 }
 
-#iconLogin {
-  width:200px;
-}
-
-#navbar{
-  width: 100%;
-}
-
 .wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  /*
-  min-height: 100%;
-  padding: 20px;
-  */
 }
 
 #formContent {

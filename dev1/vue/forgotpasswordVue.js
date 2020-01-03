@@ -1,3 +1,4 @@
+/* global Vue */
 new Vue({
     el: '#forgotpassword',
     data: {
