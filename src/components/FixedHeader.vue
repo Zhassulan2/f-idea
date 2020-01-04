@@ -28,26 +28,44 @@
             return {
                 indexBtnText: 'ForteIdea',
                 instructionBtnText: 'Инструкция',
-                navBtnText: 'Регистрация',
-                page: 'Login'
+                navBtnText: "Регистрация"
             }
         },
         methods: {
             changePage: function () {
-                if (this.page == 'Login') {
-                    this.page = 'ForgotPassword';
-                    this.$emit('pageChanged',this.page);
-                    this.navBtnText = "Авторизация"
-                } else {
-                    this.page = 'Login';
-                    this.$emit('pageChanged',this.page);
-                    this.navBtnText = "Регистрация"
+                switch(localStorage.getItem("page")) {
+                    case null:
+                        localStorage.clear();
+                        localStorage.setItem("page","Login");
+                        this.$emit('pageChanged',localStorage.getItem("page"));
+                        this.navBtnText = "Регистрация"
+                        break;
+
+                    case "Main":
+                        localStorage.clear();
+                        localStorage.setItem("page","Login");
+                        this.$emit('pageChanged',localStorage.getItem("page"));
+                        this.navBtnText = "Регистрация"
+                        break;
+
+                    case "ForgotPassword":
+                        localStorage.setItem("page","Login");
+                        this.$emit('pageChanged',localStorage.getItem("page"));
+                        this.navBtnText = "Регистрация";
+                        break;
+
+                    case "Login":
+                        localStorage.setItem("page","ForgotPassword");
+                        this.$emit('pageChanged',localStorage.getItem("page"));
+                        this.navBtnText = "Авторизация"
+                        break;
                 }
 
             }
         },
         mounted(){
-            if (this.page == null) this.page = 'Login';
+            this.changePage();
+
         }
     }
 

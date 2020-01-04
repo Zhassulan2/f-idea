@@ -25,7 +25,7 @@
             }
         },
         mounted() {
-            this.page = 'Login';
+            if (localStorage.getItem("page") == "Login")this.page = 'Login';
         }
     }
 </script>

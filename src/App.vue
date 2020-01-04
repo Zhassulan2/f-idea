@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <Authorize></Authorize>
+    <Authorize v-if="this.page == 'Login'"></Authorize>
+    <Main v-if="this.page != 'Login'"></Main>
     <HelloWorld msg="Welcome to Your Vue.js App"/>
 
   </div>
@@ -9,12 +10,14 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import Authorize from "@/components/Authorize";
+import Main from "@/components/Main";
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
-    Authorize
+    Authorize,
+    Main
   },
   data (){
     return {
@@ -26,8 +29,11 @@ export default {
   mounted: function(){
 
     // eslint-disable-next-line no-console
-    if (localStorage.getItem("username") == null) {
-      localStorage.setItem("page","login")
+    if (localStorage.getItem("login") == null) {
+      localStorage.setItem("page","Login");
+      this.page = "Login"
+    } else {
+      localStorage.setItem("page","main")
     }
 
   }
