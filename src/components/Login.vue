@@ -32,8 +32,14 @@
 </template>
 
 <script>
+    /* eslint-disable no-console */
+
     export default {
         name: "Login",
+        props:{
+            page:String,
+            NavComponent: String
+        },
         data(){
             return {
                 placeholderLogin: 'Логин',
@@ -41,15 +47,27 @@
                 loginBtnText: 'Авторизация',
                 forgotPasswordBtnText: 'Забыли Пароль',
                 login: null,
-                password: null
+                password: null,
+                Autharized: true
             }
         },
         methods:{
             loginFunc(){
                 let tmpObj = {"login":this.login,"password":this.password};
                 localStorage.setItem('login',JSON. stringify(tmpObj));
-                
+
+                //Авторизация успешная
+                this.NavComponent = "IdeaList";
+                this.NavComponent = "IdeaList";
+                this.Autharized = true;
+                this.$emit('NavComponentChanged',this.NavComponent);
+                this.$emit('PageChanged',this.page);
             }
+        },
+        mounted(){
+
+            console.log("mounted Login this.page)" + this.page);
+            console.log("mounted Login this.NavComponent)" + this.NavComponent);
         }
     }
 </script>

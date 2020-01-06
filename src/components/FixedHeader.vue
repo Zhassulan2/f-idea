@@ -35,8 +35,12 @@
 </template>
 
 <script lang="js">
+    /* eslint-disable no-console */
 
     export default {
+        props:{
+            NavComponent: String
+        },
         name: 'FixedHeader',
         data() {
             return {
@@ -89,10 +93,14 @@
             }
         },
         mounted(){
+            console.log("mounted FixedHeader");
+            console.log(localStorage.getItem("page"));
             switch(localStorage.getItem("page")) {
                 case "Main":
-                    this.navBtnText = "Выход"
-                    this.page = "Main"
+                    this.navBtnText = "Выход";
+                    this.page = "Main";
+                    console.log("Case mounted FixedHeader");
+                    console.log(localStorage.getItem("page"));
                     break;
             }
 

@@ -19,14 +19,14 @@
             ForgotPassword,
             Login
         },
-        data(){
-            return {
-                page:"Login"
-            }
+        props:{
+            page: String,
+
         },
         mounted() {
-            if (localStorage.getItem("page") == "Login")this.page = 'Login';
-        }
+            if (this.page == null) this.page = 'Login';
+        },
+
     }
 </script>
 

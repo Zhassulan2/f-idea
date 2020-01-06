@@ -1,8 +1,15 @@
 <template lang="html">
     <section class="Main">
-        <FixedHeader @pageChanged="page=$event"></FixedHeader>
+        <FixedHeader
+                @pageChanged="page=$event"
+                :NavComponent="NavComponent"
+        ></FixedHeader>
 
-        <IdeaList v-if="NavComponent == 'IdeaList'" @NavComponentChanged="NavComponentChangedMethod($event)"> </IdeaList>
+        <IdeaList
+                v-if="NavComponent == 'IdeaList'"
+                @NavComponentChanged="NavComponentChangedMethod($event)"
+                @PageChanged="PageChangedMethod($event)"
+        ></IdeaList>
         <IdeaDetailed v-if="NavComponent == 'IdeaDetailed'"></IdeaDetailed>
 
 
@@ -10,6 +17,8 @@
 </template>
 
 <script lang="js">
+    /* eslint-disable no-console */
+
 
     import FixedHeader from "@/components/FixedHeader";
     import IdeaList from "@/components/IdeaList";
@@ -24,27 +33,25 @@
         },
         methods:{
             NavComponentChangedMethod(event){
-                // eslint-disable-next-line no-console
+
+                console.log("Собитые NavComponentChangedMethod")
                 console.log(this.NavComponent);
                 this.NavComponent=event;
-            }
+            },
+            PageChangedMethod(event){
+                console.log("Собитые PageChangedMethod")
+                console.log(this.page);
+                this.NavComponent=event;
+            },
         },
-        data(){
-            return {
-                page:"Main",
-                NavComponent:""
-            }
+
+        props:{
+                page:String,
+                NavComponent:String
+
         },
         mounted(){
-            switch(localStorage.getItem("NavComponent")) {
-                case null:
-                    localStorage.setItem("NavComponent","IdeaList");
-                    this.NavComponent = "IdeaList";
-                    break;
-                case "IdeaList":
-                    this.NavComponent = "IdeaList";
-                    break;
-            }
+            console.log("mounted Main" + this.page)
         }
     }
 </script>
