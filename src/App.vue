@@ -1,7 +1,9 @@
 <template>
   <div id="app">
+
     <Authorize v-if="this.page == 'Login'"></Authorize>
     <Main v-if="this.page != 'Login'"></Main>
+
     <HelloWorld msg="Welcome to Your Vue.js App"/>
 
   </div>
@@ -33,9 +35,8 @@ export default {
       localStorage.setItem("page","Login");
       this.page = "Login"
     } else {
-      localStorage.setItem("page","main")
+      localStorage.setItem("page","Main")
     }
-
   }
 }
 </script>

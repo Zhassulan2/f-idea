@@ -44,6 +44,7 @@ new Vue({
     },
     methods: {
         exitSite: function () {
+            // eslint-disable-next-line no-console
             console.log("Test");
             if (localStorage.getItem("username") != null) {
                 localStorage.removeItem("username");
