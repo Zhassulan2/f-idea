@@ -1,224 +1,344 @@
 <template>
     <section class="IdeaDetailed">
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="navbar">
-                    <div>
-                        Тема: {{IdeaData.title}}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="jumbotron">
+                        <strong>Основная информация</strong>
+                        <div class="alert alert-primary" role="alert">
+                            <v-select
+                                    :items="states"
+                                    label="Статус"
+                                    v-model="selectedItem.state"
+                                    @change="UpdateSelectedItemKeys('state')"
+                            ></v-select>
+                            <v-select
+                                    :items="processesName"
+                                    label="Процесс"
+                                    v-model="selectedProcessName"
+                                    @change="processSelectedMethod"
+                            ></v-select>
+                            <v-select
+                                    :items="processLeanManagers"
+                                    label="Lean-manager"
+                                    v-model="selectedProcessLeanManager"
+                                    @change="UpdateSelectedItemKeys('leanManager')"
+                            ></v-select>
+                            <v-text-field label="Инициатор" v-model="selectedItem.initiator.username"
+                                          disabled></v-text-field>
+                        </div>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-outline-light">{{issueDetails}}</button>&nbsp;
-                        <button type="button" class="btn btn-outline-light">{{changeIssue}}</button>&nbsp;
-                        <button type="button" class="btn btn-outline-light">{{deleteIssue}}</button>&nbsp;
+                    <div class="jumbotron">
+                        <strong>Описание проблемы</strong>
+                        <div class="alert alert-primary" role="alert">
+                            <v-textarea
+                                    name="body"
+                                    label="Введите текст"
+                                    rows="1"
+                                    v-model.lazy="selectedItem.body"
+                                    hint="Hint text"
+                                    @change="UpdateSelectedItemKeys('body')"
+                            ></v-textarea>
+                        </div>
                     </div>
+                    <div class="jumbotron">
+                        <strong>Ожидаемый результат</strong>
+                        <div class="alert alert-primary" role="alert">
+                            <v-textarea
+                                    name="expectedResult"
+                                    label="Введите текст"
+                                    rows="1"
+                                    v-model.lazy="selectedItem.expectedResult"
+                                    hint="Hint text"
+                                    @change="UpdateSelectedItemKeys('expectedResult')"
+                            ></v-textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="jumbotron">
+                        <strong>План реализации</strong>
+                        <div class="alert alert-primary" role="alert">
+                            <b-button
+                                    variant="btn btn-outline-success"
+                                    class="m-1"
+                                    @click="checkPostReq">
+                                checkPostReq
+                            </b-button>
+                            <v-text-field
+                                    label="Задача"
+                                    v-model.lazy="selectedItem.title"
+                                    @change="UpdateSelectedItemKeys('title')"
+                            ></v-text-field>
+                            <v-select
+                                    :items="processResponsiblePeople"
+                                    label="Исполнитель"
+                                    v-model="selectedProcessResponsible"
+                                    @change="UpdateSelectedItemKeys('responsible')"
+                            ></v-select>
+                            <div>
+                                <v-menu
+                                        ref="menu"
+                                        v-model="menu"
+                                        :close-on-content-click="false"
+                                        :return-value.sync="selectedItem.deadLine"
+                                        transition="scale-transition"
+                                        offset-y
+                                        min-width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                                v-model="selectedItem.deadLine"
+                                                label="Срок"
+                                                readonly
+                                                v-on="on"
+                                                @change="UpdateSelectedItemKeys('deadLine')"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="selectedItem.deadLine" no-title scrollable>
+                                        <v-spacer></v-spacer>
+                                        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                        <v-btn text color="primary" @click="$refs.menu.save(selectedItem.deadLine)">OK
+                                        </v-btn>
+                                    </v-date-picker>
+                                </v-menu>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="jumbotron">
+                        <strong>Эффект</strong>
+                        <div class="alert alert-primary" role="alert">
+                            <v-text-field
+                                    label="Денежный эффект"
+                                    v-model.lazy="selectedItem.savedMoney"
+                                    hint="Hint text"
+                                    @change="UpdateSelectedItemKeys('savedMoney')"
+                            ></v-text-field>
+                            <v-text-field
+                                    label="Экономия в часах"
+                                    v-model.lazy="selectedItem.savedHours"
+                                    hint="Hint text"
+                                    @change="UpdateSelectedItemKeys('savedHours')"
+                            ></v-text-field>
+                        </div>
+                    </div>
+                    <div class="jumbotron">
+                        <strong>Результаты и как его удалось закрепить</strong>
+                        <div class="alert alert-primary" role="alert">
+                            <v-textarea
+                                    name="achivedResult"
+                                    label="Введите текст"
+                                    rows="1"
+                                    v-model.lazy="selectedItem.achievedResult"
+                                    hint="Hint text"
+                                    @change="UpdateSelectedItemKeys('achivedResult')"
+                            ></v-textarea>
+                            <br>
+                            пока не привязано, в бэке нужно обновить значения Zhass, [21.02.20 11:25]
+                            aimedResult
 
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="col">Описание: {{IdeaData.description}}</th>
-            </tr>
-            </tbody>
-        </table>
+                            на
 
-        <div class="alert alert-dark navbar" role="alert">
-            <div></div>
-            <div>
-                <button type="button" class="btn btn-dark">
-                    <font-awesome-icon icon="thumbs-up"/>
-                    {{comments.length}}
-                </button>&nbsp;
-                <button v-if="pageConfig.showCommentDetails"
-                        v-on:click="showCommentDetailsFn"
-                        type="button" class="btn btn-dark"
-                >
-                    <font-awesome-icon icon="list"/>
-                    <font-awesome-icon icon="comments"/>
-                </button>&nbsp;
-
-                <button
-                        v-if="!pageConfig.showCommentDetails"
-                        v-on:click="showCommentDetailsFn"
-                        type="button"
-                        class="btn btn-dark"
-                >
-                    <font-awesome-icon icon="list"/>
-                    <font-awesome-icon icon="comment-slash"/>
-                </button>&nbsp;
-                <button v-if="pageConfig.ShowComments"
-                        v-on:click="showComment"
-                        type="button" class="btn btn-dark"
-                >
-                    <font-awesome-icon icon="comments"/>
-                </button>&nbsp;
-                <button v-if="!pageConfig.ShowComments"
-                        v-on:click="showComment"
-                        type="button" class="btn btn-dark"
-                >
-                    <font-awesome-icon icon="comment-slash"/>
-                </button>&nbsp;
+                            achivedResult
+                            <br>
+                            selectedItem = selectedItem{{selectedItem}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div v-if="pageConfig.ShowComments">
-            <div class="alert alert-dark navbar" role="alert">
-                <div>
-                    Добавить комментарий
-                </div>
-                <div>
-                    <div class="input-group mb-3 ">
-                        <input style="width: 400px;"
-                               type="text"
-                               class="form-control"
-                               placeholder="Добавить комментарии"
-                               v-model="message">
-                    </div>
-                </div>
-                <div>
-                    <button
-                            type="button"
-                            class="btn btn-dark"
-                            v-on:click="addComment"
-                    >{{sendComment}}
-                    </button>&nbsp;
-                </div>
-            </div>
-            <div class="alert alert-dark" role="alert">
-                <table class="table">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col" v-if="pageConfig.showCommentDetails">Автор</th>
-                        <th scope="col">Комментарии</th>
-                        <th scope="col">Голосование</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="comment in comments" v-bind:key="comment.id">
-                        <th scope="row">{{comment.id}}</th>
-                        <td v-if="pageConfig.showCommentDetails">{{comment.owner}}</td>
-                        <td>{{comment.text}}</td>
-                        <td v-on:click="likeComment(comment.id)">
-                            <div v-if="comment.like ">
-                                <font-awesome-icon icon="thumbs-up"/>
-                            </div>
-                            <div v-else>
-                                <font-awesome-icon icon="thumbs-down"/>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </section>
 </template>
 
-<script>
-    /* eslint-disable no-console */
 
-    //var _ = require('lodash');
+<script>
+    /* eslint-disable no-console,vue/no-side-effects-in-computed-properties */
 
     export default {
         name: "IdeaDetailed",
         data() {
             return {
+                state: '',
                 changeIssue: 'Изменить',
                 deleteIssue: 'Удалить',
-                sendComment: 'Отправить',
-                issueDetails: "Детали",
-
-                likeAmount: "9",
                 message: "",
-                IdeaData: {
-                    id: 0,
-                    recordId: 0,
-                    title: '',
-                    description: '',
-                    like: 0
-                },
-                pageConfig: {
-                    ShowComments:true,
-                    showCommentDetails: false
-                },
-                comments: [
-                    {
-                        id: 1,
-                        recordId: 15,
-                        owner: 'Байгожа Жасулан Аронулы-1',
-                        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ' +
-                            'Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. ',
-                        like: true
-                    },
-                    {
-                        id: 2,
-                        recordId: 16,
-                        owner: 'Байгожа Жасулан Аронулы-2',
-                        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ' +
-                            'Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. ',
-                        like: false
-                    },
-                    {
-                        id: 3,
-                        recordId: 17,
-                        owner: 'Байгожа Жасулан Аронулы-3',
-                        text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ' +
-                            'Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. ',
-                        like: false
-                    }
-                ]
+                states: ['NEW', 'INPROGRESS', 'DONE', 'BACKLOG', 'DECLINE'],
+                date: new Date().toISOString().substr(0, 10),
+                menu: false,
+                selectedProcessName: '',
+                selectedProcessResponsible: '',
+                selectedProcessLeanManager: '',
             }
         },
         methods: {
-            goCreateIdea() {
-                this.record = JSON.parse(localStorage.getItem('comment'));
+            checkPostReq() {
+
+                let buffTmp = {
+                    "title": this.$store.getters.computedSelectedItem.title,
+                    "initiator": this.$store.getters.computedSelectedItem.initiator.username,
+                    "leanManager": this.$store.getters.computedSelectedItem.leanManager.id,
+                    "responsible": this.$store.getters.computedSelectedItem.responsible.id,
+                    "process": this.$store.getters.computedSelectedItem.process.id,
+                    "publicationDate": this.getCurrentDateToString(),
+                    "savedHours": this.$store.getters.computedSelectedItem.savedHours,
+                    "savedMoney": this.$store.getters.computedSelectedItem.savedMoney,
+                    "state": this.$store.getters.computedSelectedItem.state,
+                    "aimedResult": this.$store.getters.computedSelectedItem.aimedResult,
+                    "expectedResult": this.$store.getters.computedSelectedItem.expectedResult,
+                    "deadLine": this.getCurrentDateToString()
+                };
+                console.log();
+                console.log(buffTmp);
+                this.axios.post('http://localhost:9292/forteidea/addIdea',buffTmp)
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                });
+
+                console.log(this.$store.getters.computedSelectedItem);
             },
-            likeComment: function (commentId) {
-                for (let i = 0; i < this.comments.length; i++) {
-                    if (this.comments[i].id == commentId) {
-                        if (this.comments[i].like == 0) {
-                            this.comments[i].like = 1
-                        } else {
-                            this.comments[i].like = 0
+            processSelectedMethod() {
+                this.selectedProcessResponsible = '';
+                this.selectedProcessLeanManager = '';
+                this.$store.getters.computedProcesses.forEach(element => {
+                    if (this.selectedProcessName === element.name) {
+                        this.$store.commit('updateSelectedItemProcess', element);
+                    }
+                });
+                return true;
+            },
+            getCurrentDateToString() {
+                let today = new Date();
+                let dd = String(today.getDate()).padStart(2, '0');
+                let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                let yyyy = today.getFullYear();
+                let returnDate = '';
+                returnDate = yyyy + '-' + mm + '-' + dd + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                return returnDate
+            },
+            UpdateSelectedItemKeys(val) {
+                let buff = this.$store.getters.computedSelectedItem;
+
+                if (val === 'title') buff.title = this.selectedItem.title;
+                if (val === 'expectedResult') buff.expectedResult = this.selectedItem.expectedResult;
+                if (val === 'savedMoney') buff.savedMoney = this.selectedItem.savedMoney;
+                if (val === 'savedHours') buff.savedHours = this.selectedItem.savedHours;
+                if (val === 'achivedResult') buff.achivedResult = this.selectedItem.achivedResult;
+                if (val === 'state') buff.state = this.selectedItem.state;
+                if (val === 'body') buff.body = this.selectedItem.body;
+                if (val === 'deadLine') buff.deadLine = this.selectedItem.deadLine;
+
+                // Update processes
+                if (val === 'responsible') {
+                    this.selectedItem.process.responsible.forEach(element => {
+                        if (this.selectedProcessResponsible === element.fullname) {
+                            buff.responsible = element;
                         }
-                        break;
-                    }
+                    })
                 }
+                if (val === 'leanManager') {
+                    this.selectedItem.process.leanManagers.forEach(element => {
+                        if (this.selectedProcessLeanManager === element.fullname) {
+                            buff.leanManager = element;
+                        }
+                    })
+                }
+                console.log(buff);
+
+
+                this.$store.commit('updateSelectedItem', buff);
             },
-            showComment: function(){
-                this.pageConfig.ShowComments = !this.pageConfig.ShowComments;
+        },
+        computed: {
+            NavComponent() {
+                return this.$store.getters.computedNavComponent
             },
-            showCommentDetailsFn: function () {
-                this.pageConfig.showCommentDetails = !this.pageConfig.showCommentDetails;
+            Authorized() {
+                return this.$store.getters.computedAuthorizedToggle
             },
-            addComment: function () {
-                let maxId = this.comments[0].id;
-                for (let i = 0; i < this.comments.length; i++) {
-                    if (this.comments[i].id >= maxId) {
-                        maxId = this.comments[i].id + 1;
-                    }
+            selectedItem() {
+                if (this.$store.getters.computedSelectedItem.processId != null) {
+                    this.$store.getters.computedProcesses.forEach((element) => {
+                        if (element.id === this.$store.getters.computedSelectedItem.processId) {
+                            this.$store.commit('updateSelectedItemProcess', element);
+                        }
+                    })
                 }
 
-                this.comments.push(
-                    {
-                        id: maxId,
-                        recordId: 16,
-                        owner: 'Байгожа Жасулан Аронулы-1',
-                        text: this.message,
-                        like: 1
-                    }
-                )
-                localStorage.setItem("comments", JSON.stringify(this.comments));
-            }
+                console.log('this.$store.getters.computedSelectedItem');
+                console.log(this.$store.getters.computedSelectedItem);
+
+                if (this.selectedProcessResponsible === '' && this.$store.getters.computedSelectedItem.responsible != null) {
+                    this.selectedProcessResponsible = this.$store.getters.computedSelectedItem.responsible.fullname;
+                }
+
+                if (this.selectedProcessLeanManager === '' && this.$store.getters.computedSelectedItem.leanManager != null) {
+                    this.selectedProcessLeanManager = this.$store.getters.computedSelectedItem.leanManager.fullname;
+                }
+
+                return this.$store.getters.computedSelectedItem
+            },
+            processes() {
+                return this.$store.getters.computedProcesses;
+            },
+            processesName() {
+                let buff = [];
+                this.$store.getters.computedProcesses.forEach(element => buff.push(element.name));
+                return buff;
+            },
+            processResponsiblePeople() {
+                let buff = [];
+                this.$store.getters.computedSelectedItem.process.responsible.forEach(element => buff.push(element.fullname));
+                return buff;
+            },
+            processLeanManagers() {
+                let buff = [];
+                this.$store.getters.computedSelectedItem.process.leanManagers.forEach(element => buff.push(element.fullname));
+                return buff;
+            },
+        },
+        watch: {
+            // selectedItem: {
+            //     deep: true,
+            //     handler: function (newVal) {
+            //         if (this.selectedProcessName === '') {
+            //             this.selectedProcessName = newVal.process.name;
+            //         }
+            //     }
+            // }
         },
         mounted() {
-            this.IdeaData = JSON.parse(localStorage.getItem('IdeaData'));
-        }
+
+            if (this.selectedProcessName === '' || this.selectedProcessName == null) {
+                this.selectedProcessName = this.$store.getters.computedSelectedItem.process.name;
+            }
+        },
     }
 </script>
 
 <style scoped>
+    .alert-primary {
+        margin-bottom: 5px;
+        padding: 5px 5px 5px 5px;
+        font-size: 12px;
+    }
 
+    td {
+        padding: 5px 5px 5px 5px;
+        font-size: 12px;
+    }
+
+    .jumbotron {
+        margin-bottom: 5px;
+        padding: 5px 10px 1px 10px;
+        font-size: 12px;
+    }
+
+    .col-md-4 {
+        padding: 5px 5px 5px 5px;
+    }
 </style>
